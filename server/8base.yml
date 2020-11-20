@@ -1,0 +1,31 @@
+functions:
+  listUsers:
+    type: webhook
+    handler:
+      code: src/webhooks/users/list/handler.js
+    path: /users
+    method: GET
+  getUser:
+    type: webhook
+    handler:
+      code: src/webhooks/users/get/handler.js
+    path: '/users/{id}'
+    method: GET
+  createUser:
+    type: webhook
+    handler:
+      code: src/webhooks/users/create/handler.js
+    path: /users
+    method: POST
+  editUser:
+    type: webhook
+    handler:
+      code: src/webhooks/users/edit/handler.js
+    path: '/users/{id}'
+    method: PUT
+  deleteUser:
+    type: webhook
+    handler:
+      code: src/webhooks/users/delete/handler.js
+    path: '/users/{id}'
+    method: DELETE

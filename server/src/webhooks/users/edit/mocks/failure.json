@@ -1,0 +1,10 @@
+{
+  "data": {
+    "firstName": "Fred",
+    "lastName": "Scholl",
+    "email": null
+  },
+  "pathParameters": {
+    "id": "ckhp9f2mo00l907mibgush4ue"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "data": {
+    "firstName": "Freddy",
+    "lastName": "Scholl",
+    "email": "my_new_email@123mail.com"
+  },
+  "pathParameters": {
+    "id": "ckhp9f2mo00l907mibgush4ue"
+  }
+}
