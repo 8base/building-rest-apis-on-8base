@@ -1,6 +1,6 @@
 # How to Develop a REST API on an 8base Workspace
 
-By default, the 8base platform auto-generates an extremely powerful GraphQL API that gives you immediate API access to your data. Sometimes though, developers are using a 3rd party service or other tool that doesn't easily support the authoring and execution of GraphQL queries. Instead, they require that a REST API (or discrete endpoints) be available.
+By default, the 8base platform auto-generates an extremely powerful GraphQL API that gives you immediate API access to your data. Sometimes though, developers are using a 3rd party service or another tool that doesn't easily support the authoring and execution of GraphQL queries. Instead, they require that a REST API (or discrete endpoints) be available.
 
 Developing a REST API in 8base can easily be accomplished using the [Webhook custom function](https://docs.8base.com/docs/8base-console/custom-functions/webhooks/) type. Using Webhooks, a developer can quickly code and deploy serverless functions that become available using traditional HTTP verbs (GET, POST, PUT, DELETE, etc.) and a unique path.
 
@@ -48,11 +48,11 @@ Let's go ahead and generate all of our serverless functions. We can do this pret
 8base generate webhook deleteUser --method=DELETE --path='/users/{id}' --syntax=js
 ```
 
-As you've probably noticed at this point, we're building a REST API that gives access to our 8base workspace's Users table. This is because the Users is created with the workspace by default, thus you don't need to create any new tables for the tutorial. That said, the same pattern we'll cover would work for any other database table you choose to use (or multiple).
+As you've probably noticed at this point, we're building a REST API that gives access to our 8base workspace's Users table. This is because the Users table is created with the workspace by default, thus you don't need to create any new tables for the tutorial. That said, the same pattern we'll cover would work for any other database table you choose to use (or multiple).
 
-Additionally – since we are just building this API for the Users table – it's okay that all these functions are grouped together at the top level of the `src/webhooks` director. If you are building a REST API that is going to deal with lots more tables or more custom endpoints, this directory structure might quickly feel busy/un-organized.
+Additionally – since we are just building this API for the Users table – it's okay that all these functions are grouped at the top level of the `src/webhooks` director. If you are building a REST API that is going to deal with lots more tables or more custom endpoints, this directory structure might quickly feel busy/un-organized.
 
-There is nothing stopping you from restructing your directory to better suit your organizational needs! All you need to do is make sure that the function declaration in the `8base.yml` file has a valid path to the function's handler file/script. For example, take a look at the following directory structure and `8base.yml` file:
+Nothing stopping you from restructuring your directory to better suit your organizational needs! All you need to do is make sure that the function declaration in the `8base.yml` file has a valid path to the function's handler file/script. For example, take a look at the following directory structure and `8base.yml` file:
 
 #### Directory Structure
 ```sh
@@ -134,7 +134,7 @@ The `data` argument is where any data sent via a POST or PUT request can get acc
 
 ### GET User endpoint
 
-Knowing this, let's set up the GET User (`/users/{id}`) endpoint! In order to help with our GraphQL queries inside the function, add the GraphQL Tag NPM package using `npm install -s graphql-tag`. Then, go ahead and copy the code below into your *getUser* function's handler file.
+Knowing this, let's set up the GET User (`/users/{id}`) endpoint! To help with our GraphQL queries inside the function, add the GraphQL Tag NPM package using `npm install -s graphql-tag`. Then, go ahead and copy the code below into your *getUser* function's handler file.
 
 ```js
 /* Bring in any required imports for our function */
@@ -176,7 +176,7 @@ module.exports = async (event, ctx) => {
 }
 ```
 
-You'll likely spot a unrecognized import; `responseBuilder`. Webhook's require that the following keys get declared in returned objects - `statusCode`, `body`, and (optionally) `headers`. Instead of writing out and every single response object explicitly, we can start generating them using a handy `responseBuilder` function.
+You'll likely spot an unrecognized import; `responseBuilder`. Webhook's require that the following keys get declared in returned objects - `statusCode`, `body`, and (optionally) `headers`. Instead of writing out and every single response object explicitly, we can start generating them using a handy `responseBuilder` function.
 
 So let's go ahead and create a new directory and file using the following commands and then place our `responseBuilder` function in there.
 
@@ -374,7 +374,7 @@ module.exports = async (event, ctx) => {
 
 Nice work so far! Pretty straightforward, right? What's next is an extremely important step; testing. That is, how do we run these functions locally to make sure they are behaving as expected? 
 
-You may have noticed a directory called `mocks` that is in each of the function's directories. Essentially, mocks allow us to structure a JSON payload that get's passed as the `event` argument to our function when testing locally. **The JSON object that get's declared in a mock file will be the exact same argument passed to the function when testing** - nothing more, nothing less.
+You may have noticed a directory called `mocks` that is in each of the function's directories. Essentially, mocks allow us to structure a JSON payload that gets passed as the `event` argument to our function when testing locally. **The JSON object that gets declared in a mock file will be the same argument passed to the function when testing** - nothing more, nothing less.
 
 That said, let's go ahead and run our *getUsers* function since it ignores the `event` argument. We can do this using the `invoke-local` CLI command, as well as expect a response that looks like the following:
 
@@ -412,7 +412,7 @@ $ 8base invoke-local getUser -m request
 }
 ```
 
-Now, what if you want to specify data? Like, when you want to test an update? The exact sample principle applies. We add a `data` key to our mock with the data we expect to be sent to our endpoint. Try it yourself be adding the following JSON in the `src/webhooks/editUser/mocks/request.json` file.
+Now, what if you want to specify data? Like, when you want to test an update? The exact sample principle applies. We add a `data` key to our mock with the data we expect to be sent to our endpoint. Try it yourself by adding the following JSON in the `src/webhooks/editUser/mocks/request.json` file.
 
 ```json
 {
@@ -442,7 +442,7 @@ To help with this, you're able to create as many different mock files as you wan
 When running your tests now, you can use the different mocks to insure that both your error handling and successful responses are being properly returned. All you have to do is reference the mock file you wish to use by name via the `-m` flag.
 
 ```sh
-# Test a unsuccessful response
+# Test an unsuccessful response
 8base invoke-local editUser -m failure
 
 => Result:
@@ -480,6 +480,6 @@ All your endpoints are now available at `https://api.8base.com/{PATH_IN_TABLE_AB
 
 ## Wrap Up
 
-8base is a easy to use and scalable application backend that has an auto-generating GraphQL API. That said, for those developers building applications that require REST API interfaces, I hope this tutorial gave you some useful clues on how such can be accomplished using 8base!
+8base is an easy to use and scalable application backend that has an auto-generating GraphQL API. That said, for those developers building applications that require REST API interfaces, I hope this tutorial gave you some useful clues on how much can be accomplished using 8base!
 
 Feel free to reach out with any questions!
